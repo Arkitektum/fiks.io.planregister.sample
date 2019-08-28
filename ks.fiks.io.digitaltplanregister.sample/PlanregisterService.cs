@@ -86,7 +86,7 @@ namespace ks.fiks.io.digitaltplanregister.sample
 
             // Process the message
 
-            if (fileArgs.Melding.MeldingType == "no.ks.geointegrasjon.plan.oppretteplanidentinput.v1")
+            if (fileArgs.Melding.MeldingType == "no.geointegrasjon.plan.oppdatering.oppretteplanidentinput.v1")
             {
                 Console.WriteLine("Melding " + fileArgs.Melding.MeldingId + " " + fileArgs.Melding.MeldingType + " mottas...");
                 
@@ -94,11 +94,46 @@ namespace ks.fiks.io.digitaltplanregister.sample
 
                 string payload = File.ReadAllText("sampleNyPlanident.json");
                 
-                var svarmsg = fileArgs.SvarSender.Svar("no.ks.geointegrasjon.plan.planidentopprettet.v1", payload, "NyPlanident.json").Result;
+                var svarmsg = fileArgs.SvarSender.Svar("no.geointegrasjon.plan.oppdatering.planidentopprettet.v1", payload, "NyPlanident.json").Result;
                 Console.WriteLine("Svarmelding " + svarmsg.MeldingId + " " + svarmsg.MeldingType + " sendt...");
                 Console.WriteLine(payload);
 
                 fileArgs.SvarSender.Ack(); // Ack message to remove it from the queue
+            }
+            else if (fileArgs.Melding.MeldingType == "no.geointegrasjon.plan.oppdatering.planleggingigangsatt.v1")
+            {
+                Console.WriteLine("Melding " + fileArgs.Melding.MeldingId + " " + fileArgs.Melding.MeldingType + " mottas...");
+
+                //TODO håndtere meldingen med ønsket funksjonalitet
+                
+                var svarmsg = fileArgs.SvarSender.Svar("no.ks.geointegrasjon.ok.v1").Result;
+                Console.WriteLine("Svarmelding " + svarmsg.MeldingId + " " + svarmsg.MeldingType + " sendt...");
+               
+
+                fileArgs.SvarSender.Ack(); // Ack message to remove it from the queue
+            }
+            else if (fileArgs.Melding.MeldingType == "no.geointegrasjon.plan.oppdatering.planvedtak.v1")
+            {
+                Console.WriteLine("Melding " + fileArgs.Melding.MeldingId + " " + fileArgs.Melding.MeldingType + " mottas...");
+
+                //TODO håndtere meldingen med ønsket funksjonalitet
+
+                var svarmsg = fileArgs.SvarSender.Svar("no.ks.geointegrasjon.ok.v1").Result;
+                Console.WriteLine("Svarmelding " + svarmsg.MeldingId + " " + svarmsg.MeldingType + " sendt...");
+
+
+                fileArgs.SvarSender.Ack(); // Ack message to remove it from the queue
+            }
+            else if (fileArgs.Melding.MeldingType == "no.ks.geointegrasjon.ok.v1")
+            {
+                Console.WriteLine("Melding " + fileArgs.Melding.MeldingId + " " + fileArgs.Melding.MeldingType + " mottas...");
+
+                //TODO håndtere meldingen med ønsket funksjonalitet
+
+                Console.WriteLine("Melding er håndtert i ePlansak ok ......");
+
+                fileArgs.SvarSender.Ack(); // Ack message to remove it from the queue
+
             }
             else {
                 Console.WriteLine("Ubehandlet melding i køen " + fileArgs.Melding.MeldingId + " " + fileArgs.Melding.MeldingType);
