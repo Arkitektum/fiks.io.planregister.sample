@@ -137,7 +137,7 @@ namespace ks.fiks.io.digitaltplanregister.sample
             }
             else {
                 Console.WriteLine("Ubehandlet melding i køen " + fileArgs.Melding.MeldingId + " " + fileArgs.Melding.MeldingType);
-                
+                //fileArgs.SvarSender.Ack(); // Ack message to remove it from the queue
             }
             }
 
